@@ -18,7 +18,7 @@ type Entry struct {
 	Shell    string
 }
 
-func ParseReader(r io.Reader) ([]Entry, error) {
+func parseReader(r io.Reader) ([]Entry, error) {
 	lines := bufio.NewReader(r)
 	entries := make([]Entry, 0)
 	for {

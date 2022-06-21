@@ -14,5 +14,5 @@ func ParseImagePasswd(image api.Image) ([]Entry, error) {
 		return nil, err
 	}
 
-	return ParseReader(f)
+	return parseReader(f)
 }

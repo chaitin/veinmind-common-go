@@ -49,7 +49,7 @@ gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/false`
 
 func TestParseReader(t *testing.T) {
 	r := strings.NewReader(passwdContent)
-	entries, err := ParseReader(r)
+	entries, err := parseReader(r)
 	if err != nil {
 		t.Error(err)
 	}
