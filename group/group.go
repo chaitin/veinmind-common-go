@@ -8,6 +8,8 @@ func ParseImageGroup(image api.Image) ([]Entry, error) {
 	f, err := image.Open(groupPath)
 	if err != nil {
 		return nil, err
+	} else {
+		defer f.Close()
 	}
 
 	return parseReader(f)
