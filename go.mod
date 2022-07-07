@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/chaitin/libveinmind v1.1.1
 	github.com/containerd/containerd v1.6.6
+	github.com/distribution/distribution v2.8.1+incompatible // indirect
 	github.com/docker/cli v20.10.17+incompatible
 	github.com/docker/distribution v2.8.1+incompatible
 	github.com/docker/docker v20.10.17+incompatible
