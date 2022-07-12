@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"context"
+	"github.com/chaitin/veinmind-common-go/pkg/auth"
 	"github.com/containerd/containerd"
 	"github.com/containerd/containerd/images"
 	"github.com/containerd/containerd/namespaces"
@@ -30,7 +31,7 @@ func NewContainerdClient() (Client, error) {
 	return c, nil
 }
 
-func (c *ContainerdClient) Auth(config AuthConfig) error {
+func (c *ContainerdClient) Auth(config auth.AuthConfig) error {
 	return nil
 }
 

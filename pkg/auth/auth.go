@@ -1,4 +1,4 @@
-package runtime
+package auth
 
 import (
 	"github.com/pelletier/go-toml"
@@ -16,7 +16,7 @@ type AuthConfig struct {
 	Auths []Auth `toml:"auths"`
 }
 
-func parseAuthConfig(path string) (*AuthConfig, error) {
+func ParseAuthConfig(path string) (*AuthConfig, error) {
 	authConfig := &AuthConfig{}
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -31,7 +31,7 @@ func parseAuthConfig(path string) (*AuthConfig, error) {
 	return authConfig, nil
 }
 
-func parseAuthConfigFromReader(reader io.Reader) (*AuthConfig, error) {
+func ParseAuthConfigFromReader(reader io.Reader) (*AuthConfig, error) {
 	authConfig := &AuthConfig{}
 	data, err := ioutil.ReadAll(reader)
 	if err != nil {
@@ -44,4 +44,8 @@ func parseAuthConfigFromReader(reader io.Reader) (*AuthConfig, error) {
 	}
 
 	return authConfig, nil
+}
+
+func checkRegistryAddress(registry string) {
+
 }
