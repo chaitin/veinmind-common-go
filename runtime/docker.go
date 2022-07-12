@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"github.com/chaitin/libveinmind/go/plugin/log"
+	commonAuth "github.com/chaitin/veinmind-common-go/pkg/auth"
 	"github.com/docker/cli/cli/command"
 	"github.com/docker/cli/cli/config/configfile"
 	"github.com/docker/distribution/reference"
@@ -27,13 +28,13 @@ const dockerConfigPath = "/root/.docker/config.json"
 
 type DockerClient struct {
 	ctx     context.Context
-	auth    map[string]Auth
+	auth    map[string]commonAuth.Auth
 	options []remote.Option
 }
 
-func parseDockerAuthConfig(path string) (map[string]Auth, error) {
+func parseDockerAuthConfig(path string) (map[string]commonAuth.Auth, error) {
 	dockerConfig := configfile.ConfigFile{}
-	authConfigMap := make(map[string]Auth)
+	authConfigMap := make(map[string]commonAuth.Auth)
 
 	if _, err := os.Stat(path); err != nil {
 		dockerConfigByte, err := ioutil.ReadFile(path)
@@ -62,7 +63,7 @@ func parseDockerAuthConfig(path string) (map[string]Auth, error) {
 					if err == nil {
 						authSplit := strings.Split(string(authDecode), ":")
 						if len(authSplit) == 2 {
-							auth := Auth{
+							auth := commonAuth.Auth{
 								Username: authSplit[0],
 								Password: authSplit[1],
 							}
@@ -87,7 +88,7 @@ func parseDockerAuthConfig(path string) (map[string]Auth, error) {
 func NewDockerClient(opts ...Option) (Client, error) {
 	c := &DockerClient{}
 	c.ctx = context.Background()
-	c.auth = make(map[string]Auth)
+	c.auth = make(map[string]commonAuth.Auth)
 
 	// Get Auth Token From Config File
 	auth, err := parseDockerAuthConfig(dockerConfigPath)
@@ -99,7 +100,7 @@ func NewDockerClient(opts ...Option) (Client, error) {
 
 	// Double check
 	if c.auth == nil {
-		c.auth = make(map[string]Auth)
+		c.auth = make(map[string]commonAuth.Auth)
 	}
 
 	// Options handle
@@ -133,7 +134,7 @@ func NewDockerClient(opts ...Option) (Client, error) {
 	return c, nil
 }
 
-func (client *DockerClient) Auth(config AuthConfig) error {
+func (client *DockerClient) Auth(config commonAuth.AuthConfig) error {
 	for _, auth := range config.Auths {
 		client.auth[auth.Registry] = auth
 	}
@@ -153,7 +154,7 @@ func (client *DockerClient) Pull(repo string) (string, error) {
 	}
 
 	domain := reference.Domain(named)
-	var auth Auth
+	var auth commonAuth.Auth
 	if v, ok := client.auth[domain]; ok {
 		auth = v
 	}

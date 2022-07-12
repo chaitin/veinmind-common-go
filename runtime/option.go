@@ -1,6 +1,9 @@
 package runtime
 
-import "github.com/pkg/errors"
+import (
+	"github.com/chaitin/veinmind-common-go/pkg/auth"
+	"github.com/pkg/errors"
+)
 
 type Option func(c Client) (Client, error)
 
@@ -11,7 +14,7 @@ func WithAuth(path string) Option {
 			return nil, errors.New("auth config path can't be empty")
 		}
 
-		authConfig, err := parseAuthConfig(path)
+		authConfig, err := auth.ParseAuthConfig(path)
 		if err != nil {
 			return nil, err
 		}
