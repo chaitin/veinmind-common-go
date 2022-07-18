@@ -169,3 +169,16 @@ func (client *Client) GetRepoManifest(repo string, options ...remote.Option) (*s
 
 	return manifest, nil
 }
+func (client *Client) Login(registry string, username string, password string) error {
+	if client.auth == nil {
+		client.auth = make(map[string]commonAuth.Auth)
+	}
+
+	client.auth[registry] = commonAuth.Auth{
+		Registry: registry,
+		Username: username,
+		Password: password,
+	}
+
+	return nil
+}
