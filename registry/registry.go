@@ -2,13 +2,16 @@ package registry
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/chaitin/libveinmind/go/plugin/log"
 	commonAuth "github.com/chaitin/veinmind-common-go/pkg/auth"
 	"github.com/chaitin/veinmind-common-go/pkg/request"
+	"github.com/docker/distribution/manifest/manifestlist"
 	"github.com/docker/distribution/manifest/schema2"
 	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/google/go-containerregistry/pkg/v1/remote"
+	"github.com/google/go-containerregistry/pkg/v1/types"
 	"strings"
 )
 
@@ -145,7 +148,7 @@ func (client *Client) GetRepoTags(repo string, options ...remote.Option) ([]stri
 	return remote.List(repoR, options...)
 }
 
-func (client *Client) GetRepoManifest(repo string, options ...remote.Option) (*schema2.Manifest, error) {
+func (client *Client) GetRepoManifests(repo string, options ...remote.Option) ([]*schema2.Manifest, error) {
 	ref, err := name.ParseReference(repo)
 	if err != nil {
 		return nil, err
@@ -161,13 +164,47 @@ func (client *Client) GetRepoManifest(repo string, options ...remote.Option) (*s
 		return nil, err
 	}
 
-	manifest := &schema2.Manifest{}
-	err = json.Unmarshal(desc.Manifest, manifest)
+	var (
+		descData  map[string]interface{}
+		manifests []*schema2.Manifest
+	)
+	err = json.Unmarshal(desc.Manifest, &descData)
 	if err != nil {
 		return nil, err
 	}
 
-	return manifest, nil
+	if mediaTypeInterface, ok := descData["mediaType"]; ok {
+		if mediaType, ok := mediaTypeInterface.(string); ok {
+			switch types.MediaType(mediaType) {
+			case types.DockerManifestList:
+				manifestList := &manifestlist.ManifestList{}
+				err = json.Unmarshal(desc.Manifest, manifestList)
+				if err != nil {
+					return nil, err
+				}
+
+				for _, manifestFromList := range manifestList.Manifests {
+					manifest := &schema2.Manifest{}
+					manifest.Versioned = manifestList.Versioned
+					manifest.Config = manifestFromList.Descriptor
+					manifests = append(manifests, manifest)
+				}
+			case types.DockerManifestSchema2:
+				manifest := &schema2.Manifest{}
+				err = json.Unmarshal(desc.Manifest, manifest)
+				if err != nil {
+					return nil, err
+				}
+				manifests = append(manifests, manifest)
+			}
+		}
+	}
+
+	if len(manifests) == 0 {
+		return nil, errors.New("registry: can't fetch manifest from repo: " + repo)
+	}
+
+	return manifests, nil
 }
 func (client *Client) Login(registry string, username string, password string) error {
 	if client.auth == nil {
