@@ -78,13 +78,10 @@ type FileDetail struct {
 
 type FilterFileDetail struct {
 	FileDetail
-	Type      os.FileMode
-	Md5       string
-	Sha256    string
-	ELF       bool
-	User      bool
-	Hidden    bool
-	Temporary bool
+	Type   os.FileMode
+	ELF    bool
+	Md5    string
+	Sha256 string
 }
 
 type MaliciousFileDetail struct {
