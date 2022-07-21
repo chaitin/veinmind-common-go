@@ -52,6 +52,7 @@ const (
 )
 
 type AlertDetail struct {
+	FilterFileDetail    *FilterFileDetail    `json:"filter_file_detail,omitempty"`
 	MaliciousFileDetail *MaliciousFileDetail `json:"malicious_file_detail,omitempty"`
 	WeakpassDetail      *WeakpassDetail      `json:"weakpass_detail,omitempty"`
 	BackdoorDetail      *BackdoorDetail      `json:"backdoor_detail,omitempty"`
@@ -75,6 +76,14 @@ type FileDetail struct {
 	Atim  int64       `json:"atim"`
 }
 
+type FilterFileDetail struct {
+	FileDetail
+	Type   os.FileMode `json:"type"`
+	ELF    bool        `json:"elf"`
+	Md5    string      `json:"md5"`
+	Sha256 string      `json:"sha256"`
+}
+
 type MaliciousFileDetail struct {
 	FileDetail
 	Engine        string `json:"engine"`
@@ -95,15 +104,15 @@ type BackdoorDetail struct {
 
 type SensitveFileDetail struct {
 	FileDetail
-	RuleID          int64 `json:"rule_id"`
+	RuleID          int64  `json:"rule_id"`
 	RuleName        string `json:"rule_name"`
 	RuleDescription string `json:"rule_description"`
 }
 
 type SensitiveEnvDetail struct {
-	Key         string `json:"key"`
-	Value       string `json:"value"`
-	RuleID          int64 `json:"rule_id"`
+	Key             string `json:"key"`
+	Value           string `json:"value"`
+	RuleID          int64  `json:"rule_id"`
 	RuleName        string `json:"rule_name"`
 	RuleDescription string `json:"rule_description"`
 }
