@@ -95,6 +95,7 @@ type WeakpassDetail struct {
 	Username string          `json:"username"`
 	Password string          `json:"password"`
 	Service  WeakpassService `json:"service"`
+	Path     string          `json:"path"`
 }
 
 type BackdoorDetail struct {
