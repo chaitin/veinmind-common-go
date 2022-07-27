@@ -27,3 +27,15 @@ func WithAuth(path string) Option {
 		return c, nil
 	}
 }
+
+// init client authInfo with an entity directly
+func WithAuthEntity(authConfig *auth.AuthConfig) Option {
+	return func(c Client) (Client, error) {
+		err := c.Auth(*authConfig)
+		if err != nil {
+			return nil, err
+		}
+
+		return c, nil
+	}
+}
