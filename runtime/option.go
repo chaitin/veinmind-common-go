@@ -7,8 +7,8 @@ import (
 
 type Option func(c Client) (Client, error)
 
-// WithAuth parse auth path to config entity
-func WithAuth(path string) Option {
+// WithAuthFromPath parse auth path to config entity
+func WithAuthFromPath(path string) Option {
 	return func(c Client) (Client, error) {
 		if path == "" {
 			return nil, errors.New("auth config path can't be empty")
@@ -28,10 +28,10 @@ func WithAuth(path string) Option {
 	}
 }
 
-// init client authInfo with an entity directly
-func WithAuthEntity(authConfig *auth.AuthConfig) Option {
+// WithAuth init client authInfo with an entity directly
+func WithAuth(authConfig auth.AuthConfig) Option {
 	return func(c Client) (Client, error) {
-		err := c.Auth(*authConfig)
+		err := c.Auth(authConfig)
 		if err != nil {
 			return nil, err
 		}
