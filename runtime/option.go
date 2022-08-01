@@ -39,3 +39,15 @@ func WithAuth(authConfig auth.AuthConfig) Option {
 		return c, nil
 	}
 }
+
+// WithHost set host address for runtime client
+func WithHost(host string) Option {
+	return func(c Client) (Client, error) {
+		if dockerClient, ok := c.(*DockerClient); ok {
+			dockerClient.host = host
+			return dockerClient, nil
+		} else {
+			return nil, errors.New("runtime: can't apply docker options to other runtime")
+		}
+	}
+}

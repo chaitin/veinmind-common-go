@@ -30,6 +30,7 @@ type DockerClient struct {
 	ctx     context.Context
 	auth    map[string]commonAuth.Auth
 	options []remote.Option
+	host    string
 }
 
 func parseDockerAuthConfig(path string) (map[string]commonAuth.Auth, error) {
@@ -89,6 +90,7 @@ func NewDockerClient(opts ...Option) (Client, error) {
 	c := &DockerClient{}
 	c.ctx = context.Background()
 	c.auth = make(map[string]commonAuth.Auth)
+	c.host = dockercli.DefaultDockerHost
 
 	// Get Auth Token From Config File
 	auth, err := parseDockerAuthConfig(dockerConfigPath)
@@ -143,7 +145,7 @@ func (client *DockerClient) Auth(config commonAuth.AuthConfig) error {
 }
 
 func (client *DockerClient) Pull(repo string) (string, error) {
-	c, err := dockercli.NewClientWithOpts(dockercli.FromEnv, dockercli.WithAPIVersionNegotiation())
+	c, err := dockercli.NewClientWithOpts(dockercli.FromEnv, dockercli.WithAPIVersionNegotiation(), dockercli.WithHost(client.host))
 	if err != nil {
 		return "", err
 	}
@@ -188,7 +190,7 @@ func (client *DockerClient) Pull(repo string) (string, error) {
 }
 
 func (client *DockerClient) Remove(id string) error {
-	c, err := dockercli.NewClientWithOpts(dockercli.FromEnv, dockercli.WithAPIVersionNegotiation())
+	c, err := dockercli.NewClientWithOpts(dockercli.FromEnv, dockercli.WithAPIVersionNegotiation(), dockercli.WithHost(client.host))
 	if err != nil {
 		return err
 	}
