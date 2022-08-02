@@ -136,7 +136,7 @@ func NewDockerClient(opts ...Option) (Client, error) {
 	return c, nil
 }
 
-func (client *DockerClient) Auth(config commonAuth.AuthConfig) error {
+func (client *DockerClient) Auth(ctx context.Context, config commonAuth.AuthConfig) error {
 	for _, auth := range config.Auths {
 		client.auth[auth.Registry] = auth
 	}
@@ -144,7 +144,7 @@ func (client *DockerClient) Auth(config commonAuth.AuthConfig) error {
 	return nil
 }
 
-func (client *DockerClient) Pull(repo string) (string, error) {
+func (client *DockerClient) Pull(ctx context.Context, repo string) (string, error) {
 	c, err := dockercli.NewClientWithOpts(dockercli.FromEnv, dockercli.WithAPIVersionNegotiation(), dockercli.WithHost(client.host))
 	if err != nil {
 		return "", err
@@ -168,12 +168,12 @@ func (client *DockerClient) Pull(repo string) (string, error) {
 
 	var closer io.ReadCloser
 	if token == "" {
-		closer, err = c.ImagePull(client.ctx, repo, dockertypes.ImagePullOptions{})
+		closer, err = c.ImagePull(ctx, repo, dockertypes.ImagePullOptions{})
 		if err != nil {
 			return "", err
 		}
 	} else {
-		closer, err = c.ImagePull(client.ctx, repo, dockertypes.ImagePullOptions{
+		closer, err = c.ImagePull(ctx, repo, dockertypes.ImagePullOptions{
 			RegistryAuth: token,
 		})
 		if err != nil {
@@ -189,13 +189,13 @@ func (client *DockerClient) Pull(repo string) (string, error) {
 	return named.String(), nil
 }
 
-func (client *DockerClient) Remove(id string) error {
+func (client *DockerClient) Remove(ctx context.Context, id string) error {
 	c, err := dockercli.NewClientWithOpts(dockercli.FromEnv, dockercli.WithAPIVersionNegotiation(), dockercli.WithHost(client.host))
 	if err != nil {
 		return err
 	}
 
-	_, err = c.ImageRemove(client.ctx, id, dockertypes.ImageRemoveOptions{
+	_, err = c.ImageRemove(ctx, id, dockertypes.ImageRemoveOptions{
 		Force:         true,
 		PruneChildren: true,
 	})

@@ -324,8 +324,9 @@ github.com/containerd/ttrpc v1.1.0/go.mod h1:XX4ZTnoOId4HklF4edwc4DcqskFZuvXB1Ev
 github.com/containerd/typeurl v0.0.0-20180627222232-a93fcdb778cd/go.mod h1:Cm3kwCdlkCfMSHURc+r6fwoGH6/F1hH3S4sg0rLFWPc=
 github.com/containerd/typeurl v0.0.0-20190911142611-5eb25027c9fd/go.mod h1:GeKYzf2pQcqv7tJ0AoCuuhtnqhva5LNU3U+OyKxxJpk=
 github.com/containerd/typeurl v1.0.1/go.mod h1:TB1hUtrpaiO88KEK56ijojHS1+NeF0izUACaJW2mdXg=
-github.com/containerd/typeurl v1.0.2 h1:Chlt8zIieDbzQFzXzAeBEF92KhExuE4p9p92/QmY7aY=
 github.com/containerd/typeurl v1.0.2/go.mod h1:9trJWW2sRlGub4wZJRTW83VtbOLS6hwcDZXTn6oPz9s=
+github.com/containerd/typeurl v1.0.3-0.20220503125412-51c73560a98c h1:2VLqVXXIU2gTQj+FgdGlDcAhJdqbMTk8X8lDB4Pc/qE=
+github.com/containerd/typeurl v1.0.3-0.20220503125412-51c73560a98c/go.mod h1:HDkcKOXRnX6yKnXv3P0QrogFi0DoiauK/LpQi961f0A=
 github.com/containerd/zfs v0.0.0-20200918131355-0a33824f23a2/go.mod h1:8IgZOBdv8fAgXddBT4dBXJPtxyRsejFIpXoklgxgEjw=
 github.com/containerd/zfs v0.0.0-20210301145711-11e8f1707f62/go.mod h1:A9zfAbMlQwE+/is6hi0Xw8ktpL+6glmqZYtevJgaB8Y=
 github.com/containerd/zfs v0.0.0-20210315114300-dde8f0fda960/go.mod h1:m+m51S1DvAP6r3FcmYCp54bQ34pyOwTieQDNRIRHsFY=

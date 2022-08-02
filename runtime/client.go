@@ -1,9 +1,12 @@
 package runtime
 
-import "github.com/chaitin/veinmind-common-go/pkg/auth"
+import (
+	"context"
+	"github.com/chaitin/veinmind-common-go/pkg/auth"
+)
 
 type Client interface {
-	Pull(repo string) (string, error)
-	Remove(id string) error
-	Auth(config auth.AuthConfig) error
+	Pull(ctx context.Context, repo string) (string, error)
+	Remove(ctx context.Context, id string) error
+	Auth(ctx context.Context, config auth.AuthConfig) error
 }

@@ -1,6 +1,7 @@
 package runtime
 
 import (
+	"context"
 	"fmt"
 	"testing"
 )
@@ -11,7 +12,7 @@ func TestContainerdClient_Pull(t *testing.T) {
 		t.Error(err)
 	}
 
-	repo, err := c.Pull("ubuntu:latest")
+	repo, err := c.Pull(context.Background(), "ubuntu:latest")
 	if err != nil {
 		t.Error(err)
 	}
