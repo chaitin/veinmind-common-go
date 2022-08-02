@@ -16,6 +16,7 @@ const (
 )
 
 type ContainerdClient struct {
+	ctx    context.Context
 	client *containerd.Client
 }
 
@@ -31,16 +32,16 @@ func NewContainerdClient() (Client, error) {
 	return c, nil
 }
 
-func (c *ContainerdClient) Auth(config auth.AuthConfig) error {
+func (c *ContainerdClient) Auth(ctx context.Context, config auth.AuthConfig) error {
 	return nil
 }
 
-func (c *ContainerdClient) Pull(repo string) (string, error) {
+func (c *ContainerdClient) Pull(ctx context.Context, repo string) (string, error) {
 	if named, err := reference.ParseDockerRef(repo); err == nil {
 		repo = named.String()
 	}
 
-	image, err := c.client.Pull(context.Background(), repo, containerd.WithPullUnpack)
+	image, err := c.client.Pull(ctx, repo, containerd.WithPullUnpack)
 	if err != nil {
 		return "", err
 	}
@@ -49,15 +50,15 @@ func (c *ContainerdClient) Pull(repo string) (string, error) {
 	return imageID, nil
 }
 
-func (c *ContainerdClient) Remove(repo string) error {
+func (c *ContainerdClient) Remove(ctx context.Context, repo string) error {
 	if named, err := reference.ParseDockerRef(repo); err == nil {
 		repo = named.String()
 	}
 
 	var (
-		ctx        = namespaces.WithNamespace(context.Background(), ns)
 		imageStore = c.client.ImageService()
 	)
+	ctx = namespaces.WithNamespace(ctx, ns)
 
 	var opts []images.DeleteOpt
 	opts = append(opts, images.SynchronousDelete())

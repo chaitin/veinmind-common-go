@@ -1,6 +1,7 @@
 package runtime
 
 import (
+	"context"
 	"github.com/chaitin/veinmind-common-go/pkg/auth"
 	"github.com/pkg/errors"
 )
@@ -19,7 +20,7 @@ func WithAuthFromPath(path string) Option {
 			return nil, err
 		}
 
-		err = c.Auth(*authConfig)
+		err = c.Auth(context.Background(), *authConfig)
 		if err != nil {
 			return nil, err
 		}
@@ -31,7 +32,7 @@ func WithAuthFromPath(path string) Option {
 // WithAuth init client authInfo with an entity directly
 func WithAuth(authConfig auth.AuthConfig) Option {
 	return func(c Client) (Client, error) {
-		err := c.Auth(authConfig)
+		err := c.Auth(context.Background(), authConfig)
 		if err != nil {
 			return nil, err
 		}
