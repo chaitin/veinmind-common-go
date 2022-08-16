@@ -180,6 +180,7 @@ func (client *DockerClient) Pull(ctx context.Context, repo string) (string, erro
 			return "", err
 		}
 	}
+	defer closer.Close()
 
 	_, err = ioutil.ReadAll(closer)
 	if err != nil {
