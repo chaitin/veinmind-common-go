@@ -61,6 +61,7 @@ type AlertDetail struct {
 	HistoryDetail       *HistoryDetail       `json:"history_detail,omitempty"`
 	AssetDetail         *AssetDetail         `json:"asset_detail,omitempty"`
 	BasicDetail         *BasicDetail         `json:"basic_detail,omitempty"`
+	WebshellDetail      *WebshellDetail      `json:"webshell_detail,omitempty"`
 }
 
 type FileDetail struct {
@@ -171,6 +172,13 @@ type BasicDetail struct {
 	Cmd         []string `json:"cmd"`
 	WorkingDir  string   `json:"working_dir"`
 	Author      string   `json:"author"`
+}
+
+type WebshellDetail struct {
+	FileDetail
+	Type   string `json:"type"`
+	Reason string `json:"reason"`
+	Engine string `json:"engine"`
 }
 
 type ReportEvent struct {
