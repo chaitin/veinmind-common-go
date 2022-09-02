@@ -214,7 +214,7 @@ type ContainerBasicDetail struct {
 	Hostname    string               `json:"hostname"`
 	ImageID     string               `json:"imageID"`
 	Privileged  bool                 `json:"privileged,omitempty"`
-	Process     struct {
+	RootProcess struct {
 		Terminal bool `json:"terminal,omitempty"`
 		User     struct {
 			UID uint32 `json:"uid" platform:"linux,solaris"`
