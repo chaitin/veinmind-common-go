@@ -8,8 +8,8 @@ const (
 	passwdPath = "/etc/passwd"
 )
 
-func ParseImagePasswd(image api.Image) ([]Entry, error) {
-	f, err := image.Open(passwdPath)
+func ParseFilesystemPasswd(fileSystem api.FileSystem) ([]Entry, error) {
+	f, err := fileSystem.Open(passwdPath)
 	if err != nil {
 		return nil, err
 	} else {

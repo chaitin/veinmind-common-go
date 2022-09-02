@@ -4,8 +4,8 @@ import api "github.com/chaitin/libveinmind/go"
 
 const groupPath = "/etc/group"
 
-func ParseImageGroup(image api.Image) ([]Entry, error) {
-	f, err := image.Open(groupPath)
+func ParseFilesystemGroup(fileSystem api.FileSystem) ([]Entry, error) {
+	f, err := fileSystem.Open(groupPath)
 	if err != nil {
 		return nil, err
 	} else {
