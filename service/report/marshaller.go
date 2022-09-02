@@ -73,6 +73,16 @@ var (
 	fromWeakpassService = map[string]WeakpassService{
 		"SSH": SSH,
 	}
+
+	toContainerRuntimeType = map[ContainerRuntimeType]string{
+		Docker:     "docker",
+		Containerd: "containerd",
+	}
+
+	fromContainerRuntimeType = map[string]ContainerRuntimeType{
+		"docker":     Docker,
+		"containerd": Containerd,
+	}
 )
 
 func (l Level) MarshalJSON() ([]byte, error) {
@@ -195,6 +205,31 @@ func (w *WeakpassService) UnmarshalJSON(b []byte) error {
 		*w = WeakpassService(i.(float64))
 	case string:
 		*w = fromWeakpassService[i.(string)]
+	}
+
+	return nil
+}
+
+func (t ContainerRuntimeType) MarshalJSON() ([]byte, error) {
+	buffer := bytes.NewBufferString(`"`)
+	buffer.WriteString(toContainerRuntimeType[t])
+	buffer.WriteString(`"`)
+	return buffer.Bytes(), nil
+}
+
+func (t *ContainerRuntimeType) UnmarshalJSON(b []byte) error {
+	var i interface{}
+	if err := json.Unmarshal(b, &i); err != nil {
+		return err
+	}
+
+	switch i.(type) {
+	case uint32:
+		*t = i.(ContainerRuntimeType)
+	case float64:
+		*t = ContainerRuntimeType(i.(float64))
+	case string:
+		*t = fromContainerRuntimeType[i.(string)]
 	}
 
 	return nil

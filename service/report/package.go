@@ -51,17 +51,49 @@ const (
 	SSH WeakpassService = iota
 )
 
+type ContainerRuntimeType uint32
+
+const (
+	Docker ContainerRuntimeType = iota
+	Containerd
+)
+
 type AlertDetail struct {
-	FilterFileDetail    *FilterFileDetail    `json:"filter_file_detail,omitempty"`
-	MaliciousFileDetail *MaliciousFileDetail `json:"malicious_file_detail,omitempty"`
-	WeakpassDetail      *WeakpassDetail      `json:"weakpass_detail,omitempty"`
-	BackdoorDetail      *BackdoorDetail      `json:"backdoor_detail,omitempty"`
-	SensitiveFileDetail *SensitveFileDetail  `json:"sensitive_file_detail,omitempty"`
-	SensitiveEnvDetail  *SensitiveEnvDetail  `json:"sensitive_env_detail,omitempty"`
-	HistoryDetail       *HistoryDetail       `json:"history_detail,omitempty"`
-	AssetDetail         *AssetDetail         `json:"asset_detail,omitempty"`
-	BasicDetail         *BasicDetail         `json:"basic_detail,omitempty"`
-	WebshellDetail      *WebshellDetail      `json:"webshell_detail,omitempty"`
+	FilterFileDetail     *FilterFileDetail     `json:"filter_file_detail,omitempty"`
+	MaliciousFileDetail  *MaliciousFileDetail  `json:"malicious_file_detail,omitempty"`
+	WeakpassDetail       *WeakpassDetail       `json:"weakpass_detail,omitempty"`
+	BackdoorDetail       *BackdoorDetail       `json:"backdoor_detail,omitempty"`
+	SensitiveFileDetail  *SensitveFileDetail   `json:"sensitive_file_detail,omitempty"`
+	SensitiveEnvDetail   *SensitiveEnvDetail   `json:"sensitive_env_detail,omitempty"`
+	HistoryDetail        *HistoryDetail        `json:"history_detail,omitempty"`
+	AssetDetail          *AssetDetail          `json:"asset_detail,omitempty"`
+	ImageBasicDetail     *ImageBasicDetail     `json:"image_basic_detail,omitempty"`
+	WebshellDetail       *WebshellDetail       `json:"webshell_detail,omitempty"`
+	ContainerBasicDetail *ContainerBasicDetail `json:"container_basic_detail,omitempty"`
+}
+
+type ProcessDetail struct {
+	Cmdline    string   `json:"cmdline,omitempty"`
+	Cwd        string   `json:"cwd,omitempty"`
+	Environ    []string `json:"environ,omitempty"`
+	Exe        string   `json:"exe,omitempty"`
+	Gids       []int32  `json:"gids,omitempty"`
+	Uids       []int32  `json:"uids,omitempty"`
+	Ppid       int32    `json:"ppid,omitempty"`
+	Pid        int32    `json:"pid,omitempty"`
+	HostPid    int32    `json:"host_pid,omitempty"`
+	Name       string   `json:"name,omitempty"`
+	Status     string   `json:"status,omitempty"`
+	CreateTime int64    `json:"createTime,omitempty"`
+}
+
+type MountDetail struct {
+	Destination string   `json:"destination"`
+	Type        string   `json:"type,omitempty" platform:"linux,solaris"`
+	Source      string   `json:"source,omitempty"`
+	Options     []string `json:"options,omitempty"`
+	VolumeName  string   `json:"volume_name,omitempty"`
+	Permission  string   `json:"permission,omitempty"`
 }
 
 type FileDetail struct {
@@ -164,7 +196,7 @@ type AssetPackageDetail struct {
 	Layer           string `json:"layer"`
 }
 
-type BasicDetail struct {
+type ImageBasicDetail struct {
 	References  []string `json:"references"`
 	CreatedTime int64    `json:"created_time"`
 	Env         []string `json:"env"`
@@ -172,6 +204,35 @@ type BasicDetail struct {
 	Cmd         []string `json:"cmd"`
 	WorkingDir  string   `json:"working_dir"`
 	Author      string   `json:"author"`
+}
+
+type ContainerBasicDetail struct {
+	Name        string               `json:"name"`
+	CreatedTime int64                `json:"created_time"`
+	State       string               `json:"state"`
+	Runtime     ContainerRuntimeType `json:"runtime"`
+	Hostname    string               `json:"hostname"`
+	ImageID     string               `json:"imageID"`
+	Privileged  bool                 `json:"privileged,omitempty"`
+	RootProcess struct {
+		Terminal bool `json:"terminal,omitempty"`
+		User     struct {
+			UID uint32 `json:"uid" platform:"linux,solaris"`
+			GID uint32 `json:"gid" platform:"linux,solaris"`
+		} `json:"user"`
+		Args         []string `json:"args"`
+		Env          []string `json:"env,omitempty"`
+		Cwd          string   `json:"cwd"`
+		Capabilities struct {
+			Bounding    []string `json:"bounding,omitempty" platform:"linux"`
+			Effective   []string `json:"effective,omitempty" platform:"linux"`
+			Inheritable []string `json:"inheritable,omitempty" platform:"linux"`
+			Permitted   []string `json:"permitted,omitempty" platform:"linux"`
+			Ambient     []string `json:"ambient,omitempty" platform:"linux"`
+		} `json:"capabilities,omitempty" platform:"linux"`
+	} `json:"process"`
+	Mounts    []MountDetail   `json:"mounts,omitempty"`
+	Processes []ProcessDetail `json:"processes,omitempty"`
 }
 
 type WebshellDetail struct {
