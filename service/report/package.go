@@ -72,6 +72,24 @@ type AlertDetail struct {
 	ContainerBasicDetail *ContainerBasicDetail `json:"container_basic_detail,omitempty"`
 }
 
+type RootProcessDetail struct {
+	Terminal     bool               `json:"terminal,omitempty"`
+	UID          uint32             `json:"uid" platform:"linux,solaris"`
+	GID          uint32             `json:"gid" platform:"linux,solaris"`
+	Args         []string           `json:"args"`
+	Env          []string           `json:"env,omitempty"`
+	Cwd          string             `json:"cwd"`
+	Capabilities CapabilitiesDetail `json:"capabilities,omitempty" platform:"linux"`
+}
+
+type CapabilitiesDetail struct {
+	Bounding    []string `json:"bounding,omitempty" platform:"linux"`
+	Effective   []string `json:"effective,omitempty" platform:"linux"`
+	Inheritable []string `json:"inheritable,omitempty" platform:"linux"`
+	Permitted   []string `json:"permitted,omitempty" platform:"linux"`
+	Ambient     []string `json:"ambient,omitempty" platform:"linux"`
+}
+
 type ProcessDetail struct {
 	Cmdline    string   `json:"cmdline,omitempty"`
 	Cwd        string   `json:"cwd,omitempty"`
@@ -214,25 +232,9 @@ type ContainerBasicDetail struct {
 	Hostname    string               `json:"hostname"`
 	ImageID     string               `json:"imageID"`
 	Privileged  bool                 `json:"privileged,omitempty"`
-	RootProcess struct {
-		Terminal bool `json:"terminal,omitempty"`
-		User     struct {
-			UID uint32 `json:"uid" platform:"linux,solaris"`
-			GID uint32 `json:"gid" platform:"linux,solaris"`
-		} `json:"user"`
-		Args         []string `json:"args"`
-		Env          []string `json:"env,omitempty"`
-		Cwd          string   `json:"cwd"`
-		Capabilities struct {
-			Bounding    []string `json:"bounding,omitempty" platform:"linux"`
-			Effective   []string `json:"effective,omitempty" platform:"linux"`
-			Inheritable []string `json:"inheritable,omitempty" platform:"linux"`
-			Permitted   []string `json:"permitted,omitempty" platform:"linux"`
-			Ambient     []string `json:"ambient,omitempty" platform:"linux"`
-		} `json:"capabilities,omitempty" platform:"linux"`
-	} `json:"process"`
-	Mounts    []MountDetail   `json:"mounts,omitempty"`
-	Processes []ProcessDetail `json:"processes,omitempty"`
+	RootProcess RootProcessDetail    `json:"process"`
+	Mounts      []MountDetail        `json:"mounts,omitempty"`
+	Processes   []ProcessDetail      `json:"processes,omitempty"`
 }
 
 type WebshellDetail struct {
