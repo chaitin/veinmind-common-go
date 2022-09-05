@@ -225,16 +225,17 @@ type ImageBasicDetail struct {
 }
 
 type ContainerBasicDetail struct {
-	Name        string               `json:"name"`
-	CreatedTime int64                `json:"created_time"`
-	State       string               `json:"state"`
-	Runtime     ContainerRuntimeType `json:"runtime"`
-	Hostname    string               `json:"hostname"`
-	ImageID     string               `json:"imageID"`
-	Privileged  bool                 `json:"privileged,omitempty"`
-	RootProcess RootProcessDetail    `json:"process"`
-	Mounts      []MountDetail        `json:"mounts,omitempty"`
-	Processes   []ProcessDetail      `json:"processes,omitempty"`
+	Name            string               `json:"name"`
+	CreatedTime     int64                `json:"created_time"`
+	State           string               `json:"state"`
+	Runtime         ContainerRuntimeType `json:"runtime"`
+	RuntimeUniqDesc string               `json:"runtime_uniq_desc,omitempty"`
+	Hostname        string               `json:"hostname"`
+	ImageID         string               `json:"imageID"`
+	Privileged      bool                 `json:"privileged,omitempty"`
+	RootProcess     RootProcessDetail    `json:"process"`
+	Mounts          []MountDetail        `json:"mounts,omitempty"`
+	Processes       []ProcessDetail      `json:"processes,omitempty"`
 }
 
 type WebshellDetail struct {
