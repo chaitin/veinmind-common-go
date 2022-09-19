@@ -75,7 +75,9 @@ type AlertDetail struct {
 type RootProcessDetail struct {
 	Terminal     bool               `json:"terminal,omitempty"`
 	UID          uint32             `json:"uid" platform:"linux,solaris"`
+	Username     string             `json:"username" platform:"linux,solaris"`
 	GID          uint32             `json:"gid" platform:"linux,solaris"`
+	Groupname    string             `json:"groupname" platform:"linux,solaris"`
 	Args         []string           `json:"args"`
 	Env          []string           `json:"env,omitempty"`
 	Cwd          string             `json:"cwd"`
@@ -96,7 +98,9 @@ type ProcessDetail struct {
 	Environ    []string `json:"environ,omitempty"`
 	Exe        string   `json:"exe,omitempty"`
 	Gids       []int32  `json:"gids,omitempty"`
+	Groupnames []string `json:"groupnames,omitempty"`
 	Uids       []int32  `json:"uids,omitempty"`
+	Usernames  []string `json:"usernames,omitempty"`
 	Ppid       int32    `json:"ppid,omitempty"`
 	Pid        int32    `json:"pid,omitempty"`
 	HostPid    int32    `json:"host_pid,omitempty"`
