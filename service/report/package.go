@@ -259,5 +259,5 @@ type ReportEvent struct {
 	EventType      EventType       `json:"event_type"`
 	AlertType      AlertType       `json:"alert_type"`
 	AlertDetails   []AlertDetail   `json:"alert_details"`
-	GeneralDetails []GeneralDetail `json:"general_detail"`
+	GeneralDetails []GeneralDetail `json:"general_details"`
 }
