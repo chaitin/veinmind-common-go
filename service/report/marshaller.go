@@ -53,6 +53,7 @@ var (
 		Weakpass:        "Weakpass",
 		Asset:           "Asset",
 		Basic:           "Basic",
+		General:         "General",
 	}
 
 	fromAlertType = map[string]AlertType{
@@ -64,6 +65,7 @@ var (
 		"Weakpass":        Weakpass,
 		"Asset":           Asset,
 		"Basic":           Basic,
+		"General":         General,
 	}
 
 	toWeakpassService = map[WeakpassService]string{
@@ -232,5 +234,14 @@ func (t *ContainerRuntimeType) UnmarshalJSON(b []byte) error {
 		*t = fromContainerRuntimeType[i.(string)]
 	}
 
+	return nil
+}
+
+func (t *GeneralDetail) MarshalJSON() ([]byte, error) {
+	return *t, nil
+}
+
+func (t *GeneralDetail) UnmarshalJSON(b []byte) error {
+	*t = b
 	return nil
 }
