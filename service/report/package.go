@@ -257,12 +257,15 @@ type WebshellDetail struct {
 	Engine string `json:"engine"`
 }
 
+type GeneralDetail []byte
+
 type ReportEvent struct {
-	ID           string        `json:"id"`
-	Time         time.Time     `json:"time"`
-	Level        Level         `json:"level"`
-	DetectType   DetectType    `json:"detect_type"`
-	EventType    EventType     `json:"event_type"`
-	AlertType    AlertType     `json:"alert_type"`
-	AlertDetails []AlertDetail `json:"alert_details"`
+	ID             string          `json:"id"`
+	Time           time.Time       `json:"time"`
+	Level          Level           `json:"level"`
+	DetectType     DetectType      `json:"detect_type"`
+	EventType      EventType       `json:"event_type"`
+	AlertType      AlertType       `json:"alert_type"`
+	AlertDetails   []AlertDetail   `json:"alert_details"`
+	GeneralDetails []GeneralDetail `json:"general_details"`
 }
