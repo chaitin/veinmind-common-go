@@ -59,17 +59,18 @@ const (
 )
 
 type AlertDetail struct {
-	FilterFileDetail     *FilterFileDetail     `json:"filter_file_detail,omitempty"`
-	MaliciousFileDetail  *MaliciousFileDetail  `json:"malicious_file_detail,omitempty"`
-	WeakpassDetail       *WeakpassDetail       `json:"weakpass_detail,omitempty"`
-	BackdoorDetail       *BackdoorDetail       `json:"backdoor_detail,omitempty"`
-	SensitiveFileDetail  *SensitveFileDetail   `json:"sensitive_file_detail,omitempty"`
-	SensitiveEnvDetail   *SensitiveEnvDetail   `json:"sensitive_env_detail,omitempty"`
-	HistoryDetail        *HistoryDetail        `json:"history_detail,omitempty"`
-	AssetDetail          *AssetDetail          `json:"asset_detail,omitempty"`
-	ImageBasicDetail     *ImageBasicDetail     `json:"image_basic_detail,omitempty"`
-	WebshellDetail       *WebshellDetail       `json:"webshell_detail,omitempty"`
-	ContainerBasicDetail *ContainerBasicDetail `json:"container_basic_detail,omitempty"`
+	FilterFileDetail             *FilterFileDetail             `json:"filter_file_detail,omitempty"`
+	MaliciousFileDetail          *MaliciousFileDetail          `json:"malicious_file_detail,omitempty"`
+	WeakpassDetail               *WeakpassDetail               `json:"weakpass_detail,omitempty"`
+	BackdoorDetail               *BackdoorDetail               `json:"backdoor_detail,omitempty"`
+	SensitiveFileDetail          *SensitveFileDetail           `json:"sensitive_file_detail,omitempty"`
+	SensitiveEnvDetail           *SensitiveEnvDetail           `json:"sensitive_env_detail,omitempty"`
+	SensitiveDockerHistoryDetail *SensitiveDockerHistoryDetail `json:"sensitive_docker_history_detail,omitempty"`
+	HistoryDetail                *HistoryDetail                `json:"history_detail,omitempty"`
+	AssetDetail                  *AssetDetail                  `json:"asset_detail,omitempty"`
+	ImageBasicDetail             *ImageBasicDetail             `json:"image_basic_detail,omitempty"`
+	WebshellDetail               *WebshellDetail               `json:"webshell_detail,omitempty"`
+	ContainerBasicDetail         *ContainerBasicDetail         `json:"container_basic_detail,omitempty"`
 }
 
 type RootProcessDetail struct {
@@ -167,6 +168,13 @@ type SensitveFileDetail struct {
 
 type SensitiveEnvDetail struct {
 	Key             string `json:"key"`
+	Value           string `json:"value"`
+	RuleID          int64  `json:"rule_id"`
+	RuleName        string `json:"rule_name"`
+	RuleDescription string `json:"rule_description"`
+}
+
+type SensitiveDockerHistoryDetail struct {
 	Value           string `json:"value"`
 	RuleID          int64  `json:"rule_id"`
 	RuleName        string `json:"rule_name"`
