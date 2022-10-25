@@ -43,7 +43,6 @@ const (
 	Weakpass
 	Asset
 	Basic
-	General
 )
 
 type WeakpassService uint32
@@ -71,7 +70,6 @@ type AlertDetail struct {
 	ImageBasicDetail     *ImageBasicDetail     `json:"image_basic_detail,omitempty"`
 	WebshellDetail       *WebshellDetail       `json:"webshell_detail,omitempty"`
 	ContainerBasicDetail *ContainerBasicDetail `json:"container_basic_detail,omitempty"`
-	GeneralDetail        *GeneralDetail        `json:"general_detail,omitempty"`
 }
 
 type RootProcessDetail struct {
@@ -254,11 +252,12 @@ type WebshellDetail struct {
 type GeneralDetail []byte
 
 type ReportEvent struct {
-	ID           string        `json:"id"`
-	Time         time.Time     `json:"time"`
-	Level        Level         `json:"level"`
-	DetectType   DetectType    `json:"detect_type"`
-	EventType    EventType     `json:"event_type"`
-	AlertType    AlertType     `json:"alert_type"`
-	AlertDetails []AlertDetail `json:"alert_details"`
+	ID             string          `json:"id"`
+	Time           time.Time       `json:"time"`
+	Level          Level           `json:"level"`
+	DetectType     DetectType      `json:"detect_type"`
+	EventType      EventType       `json:"event_type"`
+	AlertType      AlertType       `json:"alert_type"`
+	AlertDetails   []AlertDetail   `json:"alert_details"`
+	GeneralDetails []GeneralDetail `json:"general_detail"`
 }
