@@ -67,11 +67,19 @@ var (
 	}
 
 	toWeakpassService = map[WeakpassService]string{
-		SSH: "SSH",
+		SSH:    "SSH",
+		Redis:  "Redis",
+		Mysql:  "Mysql",
+		Tomcat: "Tomcat",
+		Env:    "Env",
 	}
 
 	fromWeakpassService = map[string]WeakpassService{
-		"SSH": SSH,
+		"SSH":    SSH,
+		"Redis":  Redis,
+		"Mysql":  Mysql,
+		"Tomcat": Tomcat,
+		"Env":    Env,
 	}
 
 	toContainerRuntimeType = map[ContainerRuntimeType]string{
