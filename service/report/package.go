@@ -49,6 +49,10 @@ type WeakpassService uint32
 
 const (
 	SSH WeakpassService = iota
+	Redis
+	Mysql
+	Tomcat
+	Env
 )
 
 type ContainerRuntimeType uint32
