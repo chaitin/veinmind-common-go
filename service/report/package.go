@@ -22,6 +22,7 @@ type DetectType uint32
 const (
 	Image DetectType = iota
 	Container
+	IaC
 )
 
 type EventType uint32
@@ -43,6 +44,7 @@ const (
 	Weakpass
 	Asset
 	Basic
+	IaCRisk
 )
 
 type WeakpassService uint32
@@ -71,6 +73,7 @@ type AlertDetail struct {
 	ImageBasicDetail             *ImageBasicDetail             `json:"image_basic_detail,omitempty"`
 	WebshellDetail               *WebshellDetail               `json:"webshell_detail,omitempty"`
 	ContainerBasicDetail         *ContainerBasicDetail         `json:"container_basic_detail,omitempty"`
+	IaCDetail                    *IaCDetail                    `json:"iac_detail,omitempty"`
 }
 
 type RootProcessDetail struct {
@@ -260,6 +263,28 @@ type WebshellDetail struct {
 }
 
 type GeneralDetail []byte
+
+type IaCDetail struct {
+	RuleInfo IaCRule `json:"rule_info"`
+	FileInfo IaCData `json:"file_info"`
+}
+
+type IaCData struct {
+	StartLine int64
+	EndLine   int64
+	FilePath  string
+	Original  string
+}
+
+type IaCRule struct {
+	Id          string
+	Name        string
+	Description string
+	Reference   string
+	Severity    string
+	Solution    string
+	Type        string
+}
 
 type ReportEvent struct {
 	ID             string          `json:"id"`

@@ -25,11 +25,13 @@ var (
 	toDetectType = map[DetectType]string{
 		Image:     "Image",
 		Container: "Container",
+		IaC:       "IaC",
 	}
 
 	fromDetectType = map[string]DetectType{
 		"Image":     Image,
 		"Container": Container,
+		"IaC":       IaC,
 	}
 
 	toEventType = map[EventType]string{
@@ -53,6 +55,7 @@ var (
 		Weakpass:        "Weakpass",
 		Asset:           "Asset",
 		Basic:           "Basic",
+		IaCRisk:         "IaC",
 	}
 
 	fromAlertType = map[string]AlertType{
@@ -64,6 +67,7 @@ var (
 		"Weakpass":        Weakpass,
 		"Asset":           Asset,
 		"Basic":           Basic,
+		"IaC":             IaCRisk,
 	}
 
 	toWeakpassService = map[WeakpassService]string{
