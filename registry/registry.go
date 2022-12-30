@@ -4,7 +4,11 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"errors"
+
+	"net"
+	"net/http"
 	"strings"
+	"time"
 
 	"github.com/chaitin/libveinmind/go/plugin/log"
 	commonAuth "github.com/chaitin/veinmind-common-go/pkg/auth"
@@ -18,7 +22,19 @@ import (
 )
 
 func init() {
-	remote.DefaultTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	remote.DefaultTransport = &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   5 * time.Second,
+			KeepAlive: 30 * time.Second,
+		}).DialContext,
+		ForceAttemptHTTP2:     true,
+		MaxIdleConns:          100,
+		IdleConnTimeout:       90 * time.Second,
+		TLSHandshakeTimeout:   10 * time.Second,
+		ExpectContinueTimeout: 1 * time.Second,
+		TLSClientConfig:       &tls.Config{InsecureSkipVerify: true},
+	}
 }
 
 type Client struct {
