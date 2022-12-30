@@ -2,14 +2,18 @@ package request
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"net"
+	"net/http"
+	"net/url"
+	"time"
+
 	"github.com/chaitin/libveinmind/go/plugin/log"
 	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/google/go-containerregistry/pkg/v1/remote/transport"
-	"net/http"
-	"net/url"
 )
 
 type Option func(*options) error
@@ -49,7 +53,19 @@ func CatalogPageV1(target name.Registry, last string, n int, ops ...Option) ([]s
 	}
 
 	o.t = &basicTransport{
-		inner:  http.DefaultTransport,
+		inner: &http.Transport{
+			Proxy: http.ProxyFromEnvironment,
+			DialContext: (&net.Dialer{
+				Timeout:   30 * time.Second,
+				KeepAlive: 30 * time.Second,
+			}).DialContext,
+			ForceAttemptHTTP2:     true,
+			MaxIdleConns:          100,
+			IdleConnTimeout:       90 * time.Second,
+			TLSHandshakeTimeout:   10 * time.Second,
+			ExpectContinueTimeout: 1 * time.Second,
+			TLSClientConfig:       &tls.Config{InsecureSkipVerify: true},
+		},
 		target: target.RegistryStr(),
 		auth:   o.auth,
 	}
@@ -68,6 +84,7 @@ func CatalogPageV1(target name.Registry, last string, n int, ops ...Option) ([]s
 	if err != nil {
 		return nil, err
 	}
+
 	resp, err := client.Do(req.WithContext(o.context))
 	if err != nil {
 		return nil, err

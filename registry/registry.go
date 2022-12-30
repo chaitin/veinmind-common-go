@@ -1,8 +1,11 @@
 package registry
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/chaitin/libveinmind/go/plugin/log"
 	commonAuth "github.com/chaitin/veinmind-common-go/pkg/auth"
 	"github.com/chaitin/veinmind-common-go/pkg/request"
@@ -12,8 +15,11 @@ import (
 	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/google/go-containerregistry/pkg/v1/remote"
 	"github.com/google/go-containerregistry/pkg/v1/types"
-	"strings"
 )
+
+func init() {
+	remote.DefaultTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+}
 
 type Client struct {
 	auth map[string]commonAuth.Auth
