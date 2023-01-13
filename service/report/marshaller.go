@@ -56,6 +56,7 @@ var (
 		Asset:           "Asset",
 		Basic:           "Basic",
 		IaCRisk:         "IaC",
+		Escalate:        "Escalate",
 	}
 
 	fromAlertType = map[string]AlertType{
@@ -68,6 +69,7 @@ var (
 		"Asset":           Asset,
 		"Basic":           Basic,
 		"IaC":             IaCRisk,
+		"Escalate":        Escalate,
 	}
 
 	toWeakpassService = map[WeakpassService]string{

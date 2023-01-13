@@ -45,6 +45,7 @@ const (
 	Asset
 	Basic
 	IaCRisk
+	Escalate
 )
 
 type WeakpassService uint32
