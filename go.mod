@@ -3,7 +3,7 @@ module github.com/chaitin/veinmind-common-go
 go 1.16
 
 require (
-	github.com/chaitin/libveinmind v1.1.1
+	github.com/chaitin/libveinmind v1.5.2
 	github.com/containerd/containerd v1.6.6
 	github.com/docker/cli v20.10.20+incompatible
 	github.com/docker/distribution v2.8.1+incompatible
