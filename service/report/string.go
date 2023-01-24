@@ -64,12 +64,18 @@ func (t AlertType) String() string {
 	}
 }
 
-func (t ContainerRuntimeType) String() string {
+func (t RuntimeType) String() string {
 	switch t {
 	case Docker:
 		return "docker"
 	case Containerd:
 		return "containerd"
+	case Remote:
+		return "remote"
+	case Tarball:
+		return "tarball"
+	case Kubernetes:
+		return "kubernetes"
 	default:
 		return "unknown"
 	}

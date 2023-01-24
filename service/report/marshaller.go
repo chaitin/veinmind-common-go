@@ -86,14 +86,20 @@ var (
 		"Env":    Env,
 	}
 
-	toContainerRuntimeType = map[ContainerRuntimeType]string{
+	toContainerRuntimeType = map[RuntimeType]string{
 		Docker:     "docker",
 		Containerd: "containerd",
+		Remote:     "remote",
+		Tarball:    "tarball",
+		Kubernetes: "kubernetes",
 	}
 
-	fromContainerRuntimeType = map[string]ContainerRuntimeType{
+	fromContainerRuntimeType = map[string]RuntimeType{
 		"docker":     Docker,
 		"containerd": Containerd,
+		"remote":     Remote,
+		"tarball":    Tarball,
+		"kubernetes": Kubernetes,
 	}
 )
 
@@ -222,14 +228,14 @@ func (w *WeakpassService) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (t ContainerRuntimeType) MarshalJSON() ([]byte, error) {
+func (t RuntimeType) MarshalJSON() ([]byte, error) {
 	buffer := bytes.NewBufferString(`"`)
 	buffer.WriteString(toContainerRuntimeType[t])
 	buffer.WriteString(`"`)
 	return buffer.Bytes(), nil
 }
 
-func (t *ContainerRuntimeType) UnmarshalJSON(b []byte) error {
+func (t *RuntimeType) UnmarshalJSON(b []byte) error {
 	var i interface{}
 	if err := json.Unmarshal(b, &i); err != nil {
 		return err
@@ -237,9 +243,9 @@ func (t *ContainerRuntimeType) UnmarshalJSON(b []byte) error {
 
 	switch i.(type) {
 	case uint32:
-		*t = i.(ContainerRuntimeType)
+		*t = i.(RuntimeType)
 	case float64:
-		*t = ContainerRuntimeType(i.(float64))
+		*t = RuntimeType(i.(float64))
 	case string:
 		*t = fromContainerRuntimeType[i.(string)]
 	}

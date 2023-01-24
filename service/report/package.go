@@ -57,11 +57,14 @@ const (
 	Env
 )
 
-type ContainerRuntimeType uint32
+type RuntimeType uint32
 
 const (
-	Docker ContainerRuntimeType = iota
+	Docker RuntimeType = iota
 	Containerd
+	Remote
+	Tarball
+	Kubernetes
 )
 
 type AlertDetail struct {
@@ -246,17 +249,17 @@ type ImageBasicDetail struct {
 }
 
 type ContainerBasicDetail struct {
-	Name            string               `json:"name"`
-	CreatedTime     int64                `json:"created_time"`
-	State           string               `json:"state"`
-	Runtime         ContainerRuntimeType `json:"runtime"`
-	RuntimeUniqDesc string               `json:"runtime_uniq_desc,omitempty"`
-	Hostname        string               `json:"hostname"`
-	ImageID         string               `json:"imageID"`
-	Privileged      bool                 `json:"privileged,omitempty"`
-	RootProcess     RootProcessDetail    `json:"process"`
-	Mounts          []MountDetail        `json:"mounts,omitempty"`
-	Processes       []ProcessDetail      `json:"processes,omitempty"`
+	Name            string            `json:"name"`
+	CreatedTime     int64             `json:"created_time"`
+	State           string            `json:"state"`
+	Runtime         RuntimeType       `json:"runtime"`
+	RuntimeUniqDesc string            `json:"runtime_uniq_desc,omitempty"`
+	Hostname        string            `json:"hostname"`
+	ImageID         string            `json:"imageID"`
+	Privileged      bool              `json:"privileged,omitempty"`
+	RootProcess     RootProcessDetail `json:"process"`
+	Mounts          []MountDetail     `json:"mounts,omitempty"`
+	Processes       []ProcessDetail   `json:"processes,omitempty"`
 }
 
 type WebshellDetail struct {
@@ -292,6 +295,8 @@ type IaCRule struct {
 
 type ReportEvent struct {
 	ID             string          `json:"id"`
+	RuntimeType    RuntimeType     `json:"runtime_type"`
+	RuntimeRoot    string          `json:"runtime_root"`
 	Time           time.Time       `json:"time"`
 	Level          Level           `json:"level"`
 	DetectType     DetectType      `json:"detect_type"`
