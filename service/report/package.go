@@ -23,6 +23,7 @@ const (
 	Image DetectType = iota
 	Container
 	IaC
+	Cluster
 )
 
 type EventType uint32
@@ -65,6 +66,13 @@ const (
 	Remote
 	Tarball
 	Kubernetes
+)
+
+type ClusterType string
+
+const (
+	ClusterKubernetes ClusterType = "kubernetes"
+	ClusterOpenshift  ClusterType = "openshift"
 )
 
 type AlertDetail struct {
@@ -295,8 +303,7 @@ type IaCRule struct {
 
 type ReportEvent struct {
 	ID             string          `json:"id"`
-	RuntimeType    RuntimeType     `json:"runtime_type"`
-	RuntimeRoot    string          `json:"runtime_root"`
+	Object         Object          `json:"object"`
 	Time           time.Time       `json:"time"`
 	Level          Level           `json:"level"`
 	DetectType     DetectType      `json:"detect_type"`
