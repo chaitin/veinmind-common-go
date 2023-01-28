@@ -10,6 +10,7 @@ type AlertDetail struct {
 	SensitiveDockerHistoryDetail *SensitiveDockerHistoryDetail `json:"sensitive_docker_history_detail,omitempty"`
 	HistoryDetail                *HistoryDetail                `json:"history_detail,omitempty"`
 	AssetDetail                  *AssetDetail                  `json:"asset_detail,omitempty"`
+	VulnDetail                   *VulnDetail                   `json:"vuln_detail,omitempty"`
 	WebshellDetail               *WebshellDetail               `json:"webshell_detail,omitempty"`
 	ImageBasicDetail             *ImageBasicDetail             `json:"image_basic_detail,omitempty"`
 	ContainerBasicDetail         *ContainerBasicDetail         `json:"container_basic_detail,omitempty"`

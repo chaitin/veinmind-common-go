@@ -33,6 +33,8 @@ func (e EventType) String() string {
 		return "risk"
 	case Invasion:
 		return "invasion"
+	case Info:
+		return "info"
 	default:
 		return "unknown"
 	}
