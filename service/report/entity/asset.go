@@ -1,9 +1,8 @@
 package entity
 
 type AssetDetail struct {
-	OS           AssetOSDetail             `json:"os"`
-	PackageInfos []AssetPackageDetails     `json:"package_infos"`
-	Applications []AssetApplicationDetails `json:"applications"`
+	OS           AssetOSDetail         `json:"os"`
+	PackageInfos []AssetPackageDetails `json:"package_infos"`
 }
 
 type AssetOSDetail struct {
@@ -13,13 +12,8 @@ type AssetOSDetail struct {
 }
 
 type AssetPackageDetails struct {
-	FilePath string               `json:"file_path"`
-	Packages []AssetPackageDetail `json:"packages"`
-}
-
-type AssetApplicationDetails struct {
 	Type     string               `json:"type"`
-	FilePath string               `json:"file_path,omitempty"`
+	FilePath string               `json:"file_path"`
 	Packages []AssetPackageDetail `json:"packages"`
 }
 
