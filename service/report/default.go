@@ -3,10 +3,11 @@ package report
 import (
 	"context"
 	"encoding/json"
+	"sync"
+
 	"github.com/chaitin/libveinmind/go/plugin/log"
 	"github.com/chaitin/libveinmind/go/plugin/service"
 	"golang.org/x/sync/errgroup"
-	"sync"
 )
 
 var (
@@ -20,7 +21,7 @@ type PluginOption func(r *reportClient) (*reportClient, error)
 
 func WithDisableLog() PluginOption {
 	return func(r *reportClient) (*reportClient, error) {
-		r.Report = func(event ReportEvent) error {
+		r.Report = func(event Event) error {
 			return nil
 		}
 
@@ -40,7 +41,7 @@ func DefaultReportClient(pOpts ...PluginOption) *reportClient {
 		}
 
 		if hasService {
-			var report func(ReportEvent) error
+			var report func(Event) error
 			service.GetService(Namespace, "report", &report)
 			group, ctx := errgroup.WithContext(context.Background())
 
@@ -55,7 +56,7 @@ func DefaultReportClient(pOpts ...PluginOption) *reportClient {
 			defaultClient = &reportClient{
 				ctx:   ctx,
 				group: group,
-				Report: func(evt ReportEvent) error {
+				Report: func(evt Event) error {
 					evtBytes, err := json.MarshalIndent(evt, "", "	")
 					if err != nil {
 						return err

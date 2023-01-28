@@ -9,27 +9,27 @@ import (
 const Namespace = "github.com/chaitin/veinmind-tools/veinmind-common/go/service/report"
 const BufferSize = 1 << 8
 
-type ReportService struct {
-	EventChannel chan ReportEvent
+type Service struct {
+	EventChannel chan Event
 }
 
 type reportClient struct {
 	ctx    context.Context
 	group  *errgroup.Group
-	Report func(ReportEvent) error
+	Report func(Event) error
 }
 
-func (s *ReportService) Report(evt ReportEvent) {
+func (s *Service) Report(evt Event) {
 	s.EventChannel <- evt
 }
 
-func (s *ReportService) Add(registry *service.Registry) {
+func (s *Service) Add(registry *service.Registry) {
 	registry.Define(Namespace, struct{}{})
 	registry.AddService(Namespace, "report", s.Report)
 }
 
-func NewReportService() *ReportService {
-	return &ReportService{
-		EventChannel: make(chan ReportEvent, BufferSize),
+func NewReportService() *Service {
+	return &Service{
+		EventChannel: make(chan Event, BufferSize),
 	}
 }
