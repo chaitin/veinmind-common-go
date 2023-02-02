@@ -2,9 +2,10 @@ package registry
 
 import (
 	"errors"
+	"io"
+
 	commonAuth "github.com/chaitin/veinmind-common-go/pkg/auth"
 	_ "github.com/chaitin/veinmind-common-go/runtime"
-	"io"
 )
 
 type Option func(client *Client) (*Client, error)
@@ -63,4 +64,19 @@ func WithAuthFromReader(reader io.Reader) Option {
 
 		return c, nil
 	}
+}
+
+type Options struct {
+	insecure bool
+}
+
+func DefaultOptions() Options {
+	return Options{
+		insecure: false,
+	}
+}
+
+func (o Options) WithInsecure() Options {
+	o.insecure = true
+	return o
 }
