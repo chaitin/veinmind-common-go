@@ -56,7 +56,7 @@ func NewClient(opts ...Option) (*Client, error) {
 	return c, nil
 }
 
-func (client *Client) GetRepos(registry string, opts ...Option) ([]string, error) {
+func (client *Client) GetRepos(registry string, options Options) ([]string, error) {
 	var (
 		repos     []string
 		optionsV2 []remote.Option
@@ -66,15 +66,6 @@ func (client *Client) GetRepos(registry string, opts ...Option) ([]string, error
 	// init options
 	optionsV1 = make([]request.Option, 0)
 	optionsV2 = make([]remote.Option, 0)
-
-	for _, opt := range opts {
-		cTemp, err := opt(client)
-		if err != nil {
-			log.Error(err)
-			continue
-		}
-		*client = *cTemp
-	}
 
 	// fetch auth
 	authOption, err := client.fetchAuthOption(registry)
@@ -90,7 +81,7 @@ func (client *Client) GetRepos(registry string, opts ...Option) ([]string, error
 		}))
 	}
 
-	r, err := name.NewRegistry(registry)
+	r, err := name.NewRegistry(registry, parseNameOptions(options)...)
 	if err != nil {
 		return nil, err
 	}
@@ -156,32 +147,34 @@ func (client *Client) GetRepos(registry string, opts ...Option) ([]string, error
 	return repos, err
 }
 
-func (client *Client) GetRepoTags(repo string, options ...remote.Option) ([]string, error) {
-	repoR, err := name.NewRepository(repo)
+func (client *Client) GetRepoTags(repo string, options Options) ([]string, error) {
+	repoR, err := name.NewRepository(repo, parseNameOptions(options)...)
 	if err != nil {
 		return nil, err
 	}
 
+	remoteOpts := make([]remote.Option, 0)
 	authOption, err := client.fetchAuthOption(repo)
 	if err == nil {
-		options = append(options, authOption)
+		remoteOpts = append(remoteOpts, authOption)
 	}
 
-	return remote.List(repoR, options...)
+	return remote.List(repoR, remoteOpts...)
 }
 
-func (client *Client) GetRepoManifests(repo string, options ...remote.Option) ([]*schema2.Manifest, error) {
-	ref, err := name.ParseReference(repo)
+func (client *Client) GetRepoManifests(repo string, options Options) ([]*schema2.Manifest, error) {
+	ref, err := name.ParseReference(repo, parseNameOptions(options)...)
 	if err != nil {
 		return nil, err
 	}
 
+	remoteOpts := make([]remote.Option, 0)
 	authOption, err := client.fetchAuthOption(repo)
 	if err == nil {
-		options = append(options, authOption)
+		remoteOpts = append(remoteOpts, authOption)
 	}
 
-	desc, err := remote.Get(ref, options...)
+	desc, err := remote.Get(ref, remoteOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -240,4 +233,12 @@ func (client *Client) Login(registry string, username string, password string) e
 	}
 
 	return nil
+}
+
+func parseNameOptions(o Options) []name.Option {
+	result := make([]name.Option, 0)
+	if o.insecure {
+		result = append(result, name.Insecure)
+	}
+	return result
 }
