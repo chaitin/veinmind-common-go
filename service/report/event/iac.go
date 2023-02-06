@@ -31,9 +31,9 @@ type IaCRule struct {
 	Type        string
 }
 
-func (i *IaCDetail) RenderTable(id string, level Level) []table.Row {
+func (i *IaCDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), i.RuleInfo.Name, i.RuleInfo.Description,
+	data = append(data, table.Row{simply(id), level, i.RuleInfo.Name, i.RuleInfo.Description,
 		i.RuleInfo.Solution, i.FileInfo.FilePath, i.FileInfo.Original})
 	return data
 }

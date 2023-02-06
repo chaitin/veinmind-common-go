@@ -15,9 +15,9 @@ func init() {
 	RegisterAlter(MaliciousFile, func() *DetailInfo { return NewDetailInfo(&MaliciousFileDetail{}) })
 }
 
-func (m *MaliciousFileDetail) RenderTable(id string, level Level) []table.Row {
+func (m *MaliciousFileDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), m.MaliciousType, m.MaliciousName, m.CalcSize(), m.Path})
+	data = append(data, table.Row{simply(id), level, m.MaliciousType, m.MaliciousName, m.CalcSize(), m.Path})
 	return data
 }
 

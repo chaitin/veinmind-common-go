@@ -35,7 +35,7 @@ func NewDetailInfo(a AlertDetail) *DetailInfo {
 // if a custom detail satisfied AlertDetail, you can use
 // RegisterAlter to add it into alertDetailMap so that it can be rendered
 type AlertDetail interface {
-	RenderTable(string, Level) []table.Row
+	RenderTable(id string, level string) []table.Row
 	RenderTableHeader() table.Row
 	RenderTableTitle() string
 	RenderRowConfig() table.RowConfig

@@ -15,9 +15,9 @@ func init() {
 	RegisterAlter(Weakpass, func() *DetailInfo { return NewDetailInfo(&WeakpassDetail{}) })
 }
 
-func (w *WeakpassDetail) RenderTable(id string, level Level) []table.Row {
+func (w *WeakpassDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), w.Username, w.Password, w.Service, w.Path})
+	data = append(data, table.Row{simply(id), level, w.Username, w.Password, w.Service, w.Path})
 	return data
 }
 

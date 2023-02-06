@@ -191,22 +191,28 @@ func (w *WeakpassService) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// MarshalJSON && UnmarshalJSON Object
-func (o *Object) MarshalJSON() ([]byte, error) {
+func NewObject(raw interface{}) Object {
+	o := Object{
+		Raw: raw,
+	}
+	// MarshalJSON && UnmarshalJSON Object
 	switch v := o.Raw.(type) {
 	case api.Image:
 		o.Type = Image
-
 		switch cast := v.(type) {
 		case *docker.Image:
 			o.RuntimeType = Docker
+			o.ID = cast.ID()
 		case *containerd.Image:
 			o.RuntimeType = Containerd
+			o.ID = cast.ID()
 		case *remote.Image:
 			o.RuntimeType = Remote
+			o.ID = cast.ID()
 			o.RuntimeRoot = cast.Runtime().Root()
 		case *tarball.Image:
 			o.RuntimeType = Tarball
+			o.ID = cast.ID()
 			o.RuntimeRoot = cast.Runtime().Root()
 		}
 	case api.Container:
@@ -214,7 +220,9 @@ func (o *Object) MarshalJSON() ([]byte, error) {
 		switch v.(type) {
 		case *docker.Container:
 			o.RuntimeType = Docker
+			o.ID = v.ID()
 		case *containerd.Container:
+			o.ID = v.ID()
 			o.RuntimeType = Containerd
 		}
 	case api.Cluster:
@@ -230,7 +238,10 @@ func (o *Object) MarshalJSON() ([]byte, error) {
 		o.Type = IaC
 		o.ID = v.Path
 	}
+	return o
+}
 
+func (o *Object) MarshalJSON() ([]byte, error) {
 	type Alias Object
 	return json.Marshal(&struct {
 		*Alias

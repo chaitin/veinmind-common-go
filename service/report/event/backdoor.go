@@ -13,9 +13,9 @@ type BackdoorDetail struct {
 	Description string `json:"description"`
 }
 
-func (b *BackdoorDetail) RenderTable(id string, level Level) []table.Row {
+func (b *BackdoorDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), b.CalcSize(), b.Path, b.Description})
+	data = append(data, table.Row{simply(id), level, b.CalcSize(), b.Path, b.Description})
 	return data
 }
 

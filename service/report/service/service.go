@@ -139,11 +139,17 @@ func (s *Service) Write() error {
 	for key, _ := range s.Options.formatEnable {
 		switch key {
 		case CLI:
-			return WriteTable(s)
+			if err := WriteTable(s); err != nil {
+				return err
+			}
 		case Json:
-			return WriteJson(s)
+			if err := WriteJson(s); err != nil {
+				return err
+			}
 		case Html:
-			return WriteHtml(s)
+			if err := WriteHtml(s); err != nil {
+				return err
+			}
 		}
 	}
 	return errors.New("no format scheme")
