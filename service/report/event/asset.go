@@ -44,7 +44,7 @@ type AssetPackageDetail struct {
 	Layer           string `json:"layer"`
 }
 
-func (a *AssetDetail) RenderTable(id string, level Level) []table.Row {
+func (a *AssetDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
 	for _, pkgs := range a.PackageInfos {
 		for _, pkg := range pkgs.Packages {

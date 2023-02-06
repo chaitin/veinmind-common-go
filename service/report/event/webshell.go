@@ -15,9 +15,9 @@ func init() {
 	RegisterAlter(Webshell, func() *DetailInfo { return NewDetailInfo(&WebshellDetail{}) })
 }
 
-func (w *WebshellDetail) RenderTable(id string, level Level) []table.Row {
+func (w *WebshellDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), w.Type, w.Engine, w.CalcSize(), w.Path, w.Reason})
+	data = append(data, table.Row{simply(id), level, w.Type, w.Engine, w.CalcSize(), w.Path, w.Reason})
 	return data
 }
 

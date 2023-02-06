@@ -41,7 +41,7 @@ type ClusterBasicDetail struct {
 	// todo
 }
 
-func (i *ImageBasicDetail) RenderTable(id string, level Level) []table.Row {
+func (i *ImageBasicDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
 	point := i.Cmd
 	if len(point) == 0 {
@@ -83,7 +83,7 @@ func (i *ImageBasicDetail) RenderColumnConfig() []table.ColumnConfig {
 	}
 }
 
-func (i *ContainerBasicDetail) RenderTable(id string, level Level) []table.Row {
+func (i *ContainerBasicDetail) RenderTable(id string, level string) []table.Row {
 	return []table.Row{
 		{simply(id), simply(i.ImageID), i.Privileged, i.CreatedTime, i.State, i.Name},
 	}

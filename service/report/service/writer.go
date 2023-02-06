@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
@@ -29,17 +30,23 @@ type Table struct {
 	colConfig []table.ColumnConfig
 }
 
-func RenderTable(s *Service) map[string]*Table {
+func RenderTable(s *Service, f Format) map[string]*Table {
 	tables := make(map[string]*Table, 0)
 	for _, evt := range s.EventPool.Events {
+		level := evt.BasicInfo.Level.String()
+		switch f {
+		case CLI:
+			level = evt.BasicInfo.Level.Color()
+		}
+
 		if _, ok := tables[evt.AlertType.String()]; ok {
-			tables[evt.AlertType.String()].rows = append(tables[evt.AlertType.String()].rows, evt.AlertDetail.RenderTable(evt.BasicInfo.ID, evt.BasicInfo.Level)...)
+			tables[evt.AlertType.String()].rows = append(tables[evt.AlertType.String()].rows, evt.AlertDetail.RenderTable(evt.BasicInfo.ID, level)...)
 		} else {
 			tables[evt.AlertType.String()] = &Table{
 				eventType: evt.EventType.String(),
 				title:     evt.AlertDetail.RenderTableTitle(),
 				header:    evt.AlertDetail.RenderTableHeader(),
-				rows:      evt.AlertDetail.RenderTable(evt.BasicInfo.ID, evt.BasicInfo.Level),
+				rows:      evt.AlertDetail.RenderTable(evt.BasicInfo.ID, level),
 				rowConfig: evt.AlertDetail.RenderRowConfig(),
 				colConfig: evt.AlertDetail.RenderColumnConfig(),
 			}
@@ -49,7 +56,7 @@ func RenderTable(s *Service) map[string]*Table {
 }
 
 func WriteTable(s *Service) error {
-	tables := RenderTable(s)
+	tables := RenderTable(s, CLI)
 	// render table
 	for _, t := range tables {
 		if t.eventType == "info" && !s.Options.verbose {
@@ -116,15 +123,16 @@ func WriteHtml(s *Service) error {
 		return err
 	}
 	data := map[string]template.HTML{}
-	tables := RenderTable(s)
+	tables := RenderTable(s, Html)
 	for key, value := range tables {
 		tw := table.NewWriter()
 		tw.SetStyle(table.StyleLight)
 		tw.Style().Options.SeparateRows = true
-		tw.Style().HTML.CSSClass = "ui celled structured unstackable table"
+		tw.Style().HTML = table.HTMLOptions{
+			CSSClass: "ui celled structured unstackable table",
+		}
 
 		if len(value.rows) > 0 {
-			//tw.SetTitle(color.CyanString(value.title))
 			tw.SetColumnConfigs(value.colConfig)
 			tw.AppendHeader(value.header, value.rowConfig)
 			for _, r := range value.rows {
@@ -133,7 +141,16 @@ func WriteHtml(s *Service) error {
 		} else {
 			tw.SetCaption("No Info")
 		}
-		data[key] = (template.HTML)(tw.RenderHTML())
+		data[key] = (template.HTML)(ColorHtml(tw.RenderHTML()))
 	}
 	return tmpl.Execute(file, data)
+}
+
+func ColorHtml(data string) string {
+	data = strings.Replace(data, "<td>Low</td>", "<td><a class=\"ui blue label\">Low</a></td>", -1)
+	data = strings.Replace(data, "<td>Medium</td>", "<td><a class=\"ui yellow label\">Medium</a></td>", -1)
+	data = strings.Replace(data, "<td>High</td>", "<td><a class=\"ui red label\">High</a></td>", -1)
+	data = strings.Replace(data, "<td>Critical</td>", "<td><a class=\"ui red label\">Critical</a></td>", -1)
+	data = strings.Replace(data, "<td>None</td>", "<td><a class=\"ui teal label\">None</a></td>", -1)
+	return data
 }

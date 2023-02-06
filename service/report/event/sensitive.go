@@ -39,21 +39,21 @@ type SensitiveDockerHistoryDetail struct {
 	RuleDescription string `json:"rule_description"`
 }
 
-func (s *SensitiveFileDetail) RenderTable(id string, level Level) []table.Row {
+func (s *SensitiveFileDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), "File", s.Path, s.ContextContent, s.RuleName, s.RuleDescription})
+	data = append(data, table.Row{simply(id), level, "File", s.Path, s.ContextContent, s.RuleName, s.RuleDescription})
 	return data
 }
 
-func (s *SensitiveEnvDetail) RenderTable(id string, level Level) []table.Row {
+func (s *SensitiveEnvDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), "Env", s.Key, s.Value, s.RuleName, s.RuleDescription})
+	data = append(data, table.Row{simply(id), level, "Env", s.Key, s.Value, s.RuleName, s.RuleDescription})
 	return data
 }
 
-func (s *SensitiveDockerHistoryDetail) RenderTable(id string, level Level) []table.Row {
+func (s *SensitiveDockerHistoryDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), "History", "", s.Value, s.RuleName, s.RuleDescription})
+	data = append(data, table.Row{simply(id), level, "History", "", s.Value, s.RuleName, s.RuleDescription})
 	return data
 }
 

@@ -14,9 +14,9 @@ func init() {
 	RegisterAlter(AbnormalHistory, func() *DetailInfo { return NewDetailInfo(&HistoryDetail{}) })
 }
 
-func (h *HistoryDetail) RenderTable(id string, level Level) []table.Row {
+func (h *HistoryDetail) RenderTable(id string, level string) []table.Row {
 	data := make([]table.Row, 0)
-	data = append(data, table.Row{simply(id), level.Color(), h.Instruction, h.Content, h.Description})
+	data = append(data, table.Row{simply(id), level, h.Instruction, h.Content, h.Description})
 	return data
 }
 

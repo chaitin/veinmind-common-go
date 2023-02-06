@@ -1,6 +1,8 @@
 package event
 
-import "github.com/fatih/color"
+import (
+	"github.com/fatih/color"
+)
 
 type Level uint32
 
