@@ -185,7 +185,7 @@
         </div>
         <div class="ui ignored hidden divider"></div>
         {{- end }}
-        {{- if or .Vulnerability .MaliciousFile .SensitiveFile .SensitiveEnv .SensitiveHistory .Weakpass .Backdoor .AbnormalHistory .IaC .Webshell}}
+        {{- if or .Vulnerability .MaliciousFile .SensitiveFile .SensitiveEnv .SensitiveHistory .Weakpass .Backdoor .AbnormalHistory .IaC .Webshell .Escape .UnsafeMount}}
         <div class="ui active intro tab" data-tab="overview">
             <h2 class="ui dividing center header"><i class="ambulance icon"></i>风险详情<a class="anchor"
                                                                                        id="risk"></a></h2>
@@ -254,6 +254,22 @@
                 <h4 class="ui header">WebShell</h4><i class="fitted icon code"></i>
                 <a class="anchor" id="Webshell"></a>
                 {{ .Webshell }}
+                <div class="ui ignored hidden divider"></div>
+            </div>
+            {{- end }}
+            {{- if .Escape }}
+            <div class="highlighted part" data-class="Escape">
+                <h4 class="ui header">逃逸风险</h4><i class="fitted icon code"></i>
+                <a class="anchor" id="Escape"></a>
+                {{ .Escape }}
+                <div class="ui ignored hidden divider"></div>
+            </div>
+            {{- end }}
+            {{- if .UnsafeMount }}
+            <div class="highlighted part" data-class="UnsafeMount">
+                <h4 class="ui header">不安全的挂载</h4><i class="fitted icon code"></i>
+                <a class="anchor" id="UnsafeMount"></a>
+                {{ .UnsafeMount }}
                 <div class="ui ignored hidden divider"></div>
             </div>
             {{- end }}

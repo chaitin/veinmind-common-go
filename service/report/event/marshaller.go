@@ -293,9 +293,9 @@ func (o *Object) UnmarshalJSON(data []byte) error {
 		if err != nil {
 			return err
 		}
-	// TODO(d_infinite): support other runtime
-	default:
-		return errors.New("report: not support runtime type")
+		// TODO(d_infinite): support other runtime
+		//default:
+		//	return errors.New("report: not support runtime type")
 	}
 
 	switch o.Type {

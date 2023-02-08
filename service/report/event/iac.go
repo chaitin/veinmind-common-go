@@ -57,5 +57,7 @@ func (i *IaCDetail) RenderColumnConfig() []table.ColumnConfig {
 		{Number: 3, WidthMax: 12, AutoMerge: true},
 		{Number: 4, WidthMax: 12, Align: text.AlignLeft},
 		{Number: 5, WidthMax: 16},
+		{Number: 6, WidthMax: 16},
+		{Number: 7, WidthMax: 16},
 	}
 }

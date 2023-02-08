@@ -28,7 +28,6 @@ func MapReportCmd(c *cmd.Command, s *service.Service, opts ...service.Option) *c
 	}
 	// all mode need init a report service
 	c.PreRun = func(c *cmd.Command, args []string) {
-		*s = *service.NewService(c.Context())
 		// verbose
 		v, err := c.Flags().GetBool("verbose")
 		if err == nil && v {
@@ -51,10 +50,7 @@ func MapReportCmd(c *cmd.Command, s *service.Service, opts ...service.Option) *c
 				opts = append(opts, service.WithHtmlRender())
 			}
 		}
-		// user options
-		for _, o := range opts {
-			o(s.Options)
-		}
+		*s = *service.NewService(c.Context(), opts...)
 	}
 	return c
 }
