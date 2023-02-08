@@ -53,6 +53,7 @@ const (
 	MaliciousFile    AlertType = "MaliciousFile"
 	Backdoor         AlertType = "Backdoor"
 	Escape           AlertType = "Escape"
+	UnsafeMount      AlertType = "UnsafeMount"
 	SensitiveFile    AlertType = "SensitiveFile"
 	SensitiveEnv     AlertType = "SensitiveEnv"
 	SensitiveHistory AlertType = "SensitiveHistory"
