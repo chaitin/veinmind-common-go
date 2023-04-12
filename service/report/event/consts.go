@@ -66,6 +66,7 @@ const (
 	Redis
 	Mysql
 	Tomcat
+	FTP
 	Env
 )
 
@@ -141,6 +142,7 @@ var (
 		Redis:  "Redis",
 		Mysql:  "Mysql",
 		Tomcat: "Tomcat",
+		FTP:    "FTP",
 		Env:    "Env",
 	}
 
@@ -149,6 +151,7 @@ var (
 		"Redis":  Redis,
 		"Mysql":  Mysql,
 		"Tomcat": Tomcat,
+		"FTP":    FTP,
 		"Env":    Env,
 	}
 )
