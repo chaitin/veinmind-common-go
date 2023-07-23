@@ -61,6 +61,7 @@ const (
 	Webshell         AlertType = "Webshell"
 	Weakpass         AlertType = "Weakpass"
 	IaCRisk          AlertType = "IaC"
+	TraceRisk        AlertType = "Trace"
 
 	SSH WeakpassService = iota
 	Redis
