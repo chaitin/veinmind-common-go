@@ -21,7 +21,7 @@ func (b *BackdoorDetail) RenderTable(id string, level string) []table.Row {
 }
 
 func (b *BackdoorDetail) RenderTableHeader() table.Row {
-	return table.Row{"FROM", "LEVEL", "Mod", "FilePath", "Content", "Description"}
+	return table.Row{"FROM", "LEVEL", "FileSize", "FilePath", "Content", "Description"}
 }
 
 func (b *BackdoorDetail) RenderTableTitle() string {
